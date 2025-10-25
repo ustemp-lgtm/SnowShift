@@ -57,6 +57,86 @@
       background-clip: text;
     }
     
+    /* Mobile-specific styles */
+    @media (max-width: 768px) {
+      .hero-content {
+        flex-direction: column !important;
+        text-align: center !important;
+      }
+      
+      .hero-logo {
+        width: 200px !important;
+        height: 200px !important;
+        margin-bottom: 1rem !important;
+      }
+      
+      .hero-title {
+        font-size: 3rem !important;
+        line-height: 1.1 !important;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.125rem !important;
+        padding: 0 1rem !important;
+      }
+      
+      .mobile-nav {
+        display: block !important;
+      }
+      
+      .desktop-nav {
+        display: none !important;
+      }
+      
+      .preloader-logo-mobile {
+        width: 200px !important;
+        height: 200px !important;
+      }
+      
+      .preloader-counter-mobile {
+        font-size: 4rem !important;
+      }
+      
+      .service-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+      }
+      
+      .steps-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+      }
+      
+      .map-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+      }
+      
+      .section-title {
+        font-size: 2.5rem !important;
+      }
+      
+      .section-subtitle {
+        font-size: 1rem !important;
+      }
+    }
+    
+    /* Backdrop blur fallback for older browsers */
+    .backdrop-blur-xl {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    
+    .backdrop-blur-md {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
     @keyframes snowfall {
       0% { transform: translateY(-100vh) rotate(0deg); }
       100% { transform: translateY(100vh) rotate(360deg); }
@@ -81,25 +161,46 @@
     .animate-bounce {
       animation: bounce 2s infinite;
     }
+    
+    /* Mobile hamburger menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+    
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body class="dark min-h-screen bg-black">
   <!-- Preloader Screen -->
   <div id="preloader" class="fixed inset-0 bg-black z-50 flex items-center justify-start transition-opacity duration-1000">
     <!-- Logo positioned to the left -->
-    <div class="ml-16 md:ml-24">
+    <div class="ml-8 md:ml-16 lg:ml-24">
       <img 
         id="preloaderLogo"
         src="./logo/Transperent_5.png" 
         alt="SnowShift Logo" 
-        class="transition-all duration-100 ease-out"
+        class="transition-all duration-100 ease-out preloader-logo-mobile"
         style="width: 400px; height: 400px; opacity: 0.3;"
       >
     </div>
     
     <!-- Large Counter at bottom-right -->
-    <div class="absolute bottom-8 right-8">
-      <span id="counter" class="text-white font-bold text-8xl md:text-9xl font-mono tracking-wider">
+    <div class="absolute bottom-4 md:bottom-8 right-4 md:right-8">
+      <span id="counter" class="text-white font-bold text-6xl md:text-8xl lg:text-9xl font-mono tracking-wider preloader-counter-mobile">
         1
       </span>
     </div>
@@ -111,19 +212,41 @@
     <div id="scrollProgress" class="fixed top-0 left-0 h-1 bg-white transition-all duration-100 ease-out pointer-events-none" style="z-index: 9999; width: 0%;"></div>
   
   <!-- Header -->
-  <header class="fixed top-0 w-full bg-black/20 backdrop-blur-xl border-b border-white/10 text-white p-6 z-40 transition-all duration-300">
+  <header class="fixed top-0 w-full bg-black/20 backdrop-blur-xl border-b border-white/10 text-white p-4 md:p-6 z-40 transition-all duration-300">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <a href="#" onclick="scrollToTop()" class="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer">
-        <img src="./logo/Transperent_1.png" alt="SnowShift Logo" class="h-8 w-8">
-        <h1 class="text-xl font-semibold tracking-tight">SnowShift</h1>
+        <img src="./logo/Transperent_1.png" alt="SnowShift Logo" class="h-6 w-6 md:h-8 md:w-8">
+        <h1 class="text-lg md:text-xl font-semibold tracking-tight">SnowShift</h1>
       </a>
-      <nav class="hidden md:flex items-center space-x-8">
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8 desktop-nav">
         <a href="#services" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Services</a>
         <a href="#contact" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Contact</a>
         <button onclick="showBookingModal()" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-white/20 transition-all duration-300">
           Book Now
         </button>
       </nav>
+      
+      <!-- Mobile Navigation -->
+      <div class="md:hidden mobile-nav">
+        <div class="hamburger" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden bg-black/90 backdrop-blur-xl border-t border-white/10 px-4 py-6 hidden">
+      <div class="flex flex-col space-y-4">
+        <a href="#services" onclick="closeMobileMenu()" class="text-gray-300 hover:text-white transition-colors text-base font-medium py-2">Services</a>
+        <a href="#contact" onclick="closeMobileMenu()" class="text-gray-300 hover:text-white transition-colors text-base font-medium py-2">Contact</a>
+        <button onclick="showBookingModal(); closeMobileMenu();" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-full text-base font-medium hover:bg-white/20 transition-all duration-300 mt-4">
+          Book Now
+        </button>
+      </div>
     </div>
   </header>
 
@@ -152,11 +275,11 @@
     <!-- Gradient overlay -->
     <div class="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60"></div>
     
-    <div class="relative z-10 max-w-6xl mx-auto text-center px-6">
+    <div class="relative z-10 max-w-6xl mx-auto text-center px-4 md:px-6">
       <div class="space-y-4">
-        <div class="flex items-center justify-center space-x-2">
-          <img src="./logo/Transperent_1.png" alt="SnowShift Logo" class="h-72 w-72 md:h-96 md:w-96">
-          <h1 class="text-6xl md:text-8xl font-bold tracking-tight leading-none">
+        <div class="hero-content flex items-center justify-center space-x-2 md:space-x-4">
+          <img src="./logo/Transperent_1.png" alt="SnowShift Logo" class="hero-logo h-48 w-48 md:h-72 md:w-72 lg:h-96 lg:w-96">
+          <h1 class="hero-title text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight leading-none">
             <span class="bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
               SnowShift
             </span>
@@ -167,16 +290,16 @@
           </h1>
         </div>
         
-        <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+        <p class="hero-subtitle text-lg md:text-xl lg:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed px-4">
           <span class="text-white font-semibold">We come to your driveway.</span> Fast, safe tire swaps and installs — 
           <span class="text-blue-300">book online in 60 seconds.</span>
         </p>
         
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-          <button onclick="showBookingModal()" class="bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 px-4">
+          <button onclick="showBookingModal()" class="w-full sm:w-auto bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
             Schedule Service
           </button>
-          <a href="#services" class="border border-white/30 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-all duration-300">
+          <a href="#services" class="w-full sm:w-auto border border-white/30 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-center">
             Learn More
           </a>
         </div>
@@ -193,16 +316,16 @@
 -- How It Works Section -->
   <section class="py-32 bg-black relative">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-20">
-        <h2 class="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+      <div class="text-center mb-12 md:mb-20">
+        <h2 class="section-title text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 tracking-tight px-4">
           How It Works
         </h2>
-        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        <p class="section-subtitle text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
           Simple, fast, and professional tire service at your location
         </p>
       </div>
       
-      <div class="grid md:grid-cols-3 gap-12 mb-16">
+      <div class="steps-grid grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12 md:mb-16">
         <!-- Step 1 -->
         <div class="text-center group">
           <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
@@ -265,7 +388,7 @@
       </div>
       
       <!-- Services Grid -->
-      <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+      <div class="service-grid grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl mx-auto">
         <!-- Standard Tire Change -->
         <div class="service-card group bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-3xl hover:border-blue-500/30 hover:bg-white/10 transition-all duration-500 hover:transform hover:scale-105 shadow-2xl flex flex-col">
           <div class="w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300">
@@ -300,7 +423,7 @@
       <!-- Service Area Map -->
       <div class="mt-20 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl">
         <h3 class="text-3xl font-bold text-white mb-6 text-center">Service Area</h3>
-        <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div class="map-grid grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
           <!-- Map -->
           <div class="bg-white/10 rounded-2xl overflow-hidden">
             <iframe
@@ -356,7 +479,7 @@ tact Section -->
         </p>
       </div>
       
-      <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="contact-grid grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
         <!-- Contact Info -->
         <div class="space-y-8">
           <div class="space-y-6">
@@ -514,13 +637,18 @@ tact Section -->
       const preloaderElement = document.getElementById('preloader');
       const mainContentElement = document.getElementById('mainContent');
       
+      // Check if mobile
+      const isMobile = window.innerWidth < 768;
+      const baseSize = isMobile ? 200 : 400;
+      const maxSize = isMobile ? 400 : 800;
+      
       const counterInterval = setInterval(() => {
         if (counter < 100) {
           counter++;
           counterElement.textContent = counter;
           
           // Gradually increase logo size and opacity as counter increases
-          logoSize = 400 + (counter / 100) * 400; // From 400px to 800px
+          logoSize = baseSize + (counter / 100) * (maxSize - baseSize);
           logoOpacity = 0.3 + (counter / 100) * 0.7; // From 0.3 to 1.0
           
           logoElement.style.width = logoSize + 'px';
@@ -627,6 +755,27 @@ tact Section -->
     // Event listeners
     window.addEventListener('scroll', updateScrollProgress);
     
+    // Mobile menu functions
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('hidden');
+    }
+    
+    function closeMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.add('hidden');
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const hamburger = document.querySelector('.hamburger');
+      
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
     // Close modal when clicking outside
     document.getElementById('bookingModal').addEventListener('click', function(e) {
       if (e.target === this) {
